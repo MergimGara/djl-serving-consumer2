@@ -8,5 +8,5 @@ services:
      restart: always
 
    model-service:
-     image: mosazhaw/djl-serving:latest
+     image: mergimgara/djl-serving:latest
      restart: always
