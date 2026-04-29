@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>Image Classification (with DJL Serving)</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" async></script>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div class="text-center">
+            <h1>Image Classification</h1>
+            <p class="subtitle">Deep Learning with DJL Serving · by garamer1</p>
+        </div>
+
+        <form>
+            <div class="upload-section" onclick="document.getElementById('image').click()">
+                <span class="upload-icon">📁</span>
+                <label class="upload-label">Bild hochladen</label>
+                <p class="upload-hint">JPEG oder PNG · Max. 10MB</p>
+                <input type="file" accept="image/png, image/jpeg" class="form-control-file" id="image" name="image"
+                    onchange="checkFiles(this.files);" style="display: none;">
+            </div>
+        </form>
+
+        <div id="loadingArea" style="display: none; text-align: center;">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Analysiere Bild...</p>
+        </div>
+
+        <div id="answerPart" style="display: none;">
+            <div class="results-container">
+                <div class="results-card">
+                    <div class="card-title">📊 Klassifizierungs-Ergebnisse</div>
+                    <!-- Template for a single result row -->
+                    <template id="result-item-template">
+                        <div class="result-item">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                <span class="bar-label"></span>
+                            </div>
+                        </div>
+                    </template>
+                    <div id="answer"></div>
+                </div>
+
+                <div class="results-card">
+                    <div class="card-title">🖼️ Analysiertes Bild</div>
+                    <img id="preview" class="image-preview" src="#" alt="preview" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

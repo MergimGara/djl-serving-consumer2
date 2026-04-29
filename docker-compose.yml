@@ -1,12 +1,13 @@
 services:
-   web-service:
-     depends_on:
-       - model-service
-     image: mergimgara/djl-serving-consumer2:latest
-     ports:
-       - "80:8082"
-     restart: always
-
-   model-service:
-     image: mergimgara/djl-serving:latest
-     restart: always
+  web-service:
+    depends_on:
+      - model-service
+    image: mergimgara/djl-serving-consumer2:latest
+    ports:
+      - "80:8082"
+    restart: always
+  model-service:
+    image: mergimgara/djl-serving:latest
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx512m -Xms256m
+    restart: always
