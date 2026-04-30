@@ -2,62 +2,78 @@
 <html lang="de">
 
 <head>
-    <title>Image Classification (with DJL Serving)</title>
+    <title>DJL Image Classifier</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" async></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
+    <button id="themeToggle" class="theme-toggle" aria-label="Theme wechseln">🌙</button>
 
     <div class="main-container">
-        <div class="text-center">
-            <h1>Image Classification</h1>
-            <p class="subtitle">Deep Learning with DJL Serving · by garamer1</p>
-        </div>
+        <header class="header">
+            <div class="badge">DeepJavaLibrary · Spring Boot · ResNet18</div>
+            <h1>Image Classifier</h1>
+            <p class="subtitle">Lade ein Bild hoch und das Modell zeigt dir die wahrscheinlichsten Klassen.<br>
+                <span class="author">by garamer1 · MDM FS2026</span>
+            </p>
+        </header>
 
-        <form>
-            <div class="upload-section" onclick="document.getElementById('image').click()">
-                <span class="upload-icon">📁</span>
-                <label class="upload-label">Bild hochladen</label>
-                <p class="upload-hint">JPEG oder PNG · Max. 10MB</p>
-                <input type="file" accept="image/png, image/jpeg" class="form-control-file" id="image" name="image"
-                    onchange="checkFiles(this.files);" style="display: none;">
+        <section id="dropzone" class="dropzone">
+            <input type="file" accept="image/png, image/jpeg" id="image" name="image" hidden>
+            <div class="dropzone-inner">
+                <span class="upload-icon">⬆️</span>
+                <p class="dropzone-title">Bild hier ablegen oder klicken</p>
+                <p class="dropzone-hint">JPEG / PNG · max. 10 MB</p>
             </div>
-        </form>
+        </section>
 
-        <div id="loadingArea" style="display: none; text-align: center;">
+        <section class="samples">
+            <p class="samples-label">Oder probiere ein Beispielbild:</p>
+            <div class="sample-grid">
+                <button class="sample-btn" data-url="https://raw.githubusercontent.com/pytorch/hub/master/images/dog.jpg">🐕 Hund</button>
+                <button class="sample-btn" data-url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg">🐈 Katze</button>
+                <button class="sample-btn" data-url="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/640px-Banana-Single.jpg">🍌 Banane</button>
+                <button class="sample-btn" data-url="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/640px-Lion_waiting_in_Namibia.jpg">🦁 Löwe</button>
+            </div>
+        </section>
+
+        <div id="loadingArea" class="loading" hidden>
             <div class="loading-spinner"></div>
-            <p class="loading-text">Analysiere Bild...</p>
+            <p class="loading-text">Modell analysiert das Bild …</p>
         </div>
 
-        <div id="answerPart" style="display: none;">
-            <div class="results-container">
-                <div class="results-card">
-                    <div class="card-title">📊 Klassifizierungs-Ergebnisse</div>
-                    <!-- Template for a single result row -->
-                    <template id="result-item-template">
-                        <div class="result-item">
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-                                <span class="bar-label"></span>
-                            </div>
-                        </div>
-                    </template>
-                    <div id="answer"></div>
+        <section id="answerPart" class="results" hidden>
+            <div class="results-grid">
+                <div class="card">
+                    <div class="card-title">🖼️ Analysiertes Bild</div>
+                    <img id="preview" class="image-preview" alt="Vorschau" />
+                    <div class="meta-row">
+                        <span class="meta-pill" id="metaTime">⏱ –</span>
+                        <span class="meta-pill" id="metaSize">📏 –</span>
+                    </div>
                 </div>
 
-                <div class="results-card">
-                    <div class="card-title">🖼️ Analysiertes Bild</div>
-                    <img id="preview" class="image-preview" src="#" alt="preview" />
+                <div class="card">
+                    <div class="card-title">📊 Klassifizierung</div>
+                    <div id="topResult" class="top-result"></div>
+                    <div id="otherResults" class="other-results"></div>
+                    <details class="raw-details">
+                        <summary>JSON-Antwort anzeigen</summary>
+                        <pre id="rawJson"></pre>
+                    </details>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
+        <footer class="footer">
+            <a href="/ping" target="_blank">/ping</a> ·
+            <a href="https://github.com/MergimGara/djl-serving-consumer2" target="_blank">GitHub</a> ·
+            <a href="https://djl.ai" target="_blank">DJL</a>
+        </footer>
+    </div>
 </body>
 
 </html>

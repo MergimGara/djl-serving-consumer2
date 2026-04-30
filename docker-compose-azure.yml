@@ -1,0 +1,20 @@
+services:
+  web-service:
+    depends_on:
+      - model-service
+    image: mergimgara/djl-serving-consumer2:latest
+    ports:
+      - "80:8082"
+    restart: always
+
+  model-service:
+    image: mergimgara/djl-serving:latest
+    restart: always
+    environment:
+      - SERVING_RESERVED_MEMORY_MB=64
+      - SERVING_REQUIRED_MEMORY_MB=64
+      - SERVING_MIN_WORKERS=1
+      - SERVING_MAX_WORKERS=1
+      - OMP_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - JAVA_OPTS=-Xms64m -Xmx256m -XX:MaxMetaspaceSize=96m
