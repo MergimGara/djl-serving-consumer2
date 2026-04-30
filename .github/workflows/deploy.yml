@@ -1,4 +1,4 @@
-name: Build, Push & Deploy (Multi-Container)
+name: Build and Push Consumer Image
 
 on:
   push:
@@ -24,10 +24,3 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/djl-serving-consumer2:latest
-
-      - name: Deploy multicontainer app to Azure
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: mdm-serving-garamer1
-          publish-profile: ${{ secrets.AZURE_MULTICONTAINER_PUBLISH_PROFILE }}
-          configuration-file: docker-compose-azure.yml
